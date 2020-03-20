@@ -1,4 +1,4 @@
-# language: generic 
+language: generic 
 sudo: required
 services:
   - docker
@@ -8,3 +8,16 @@ before_install:
 
 script:
   - docker run -e CI=true sebabanan/docker-test npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-test"
+  env: "DockerTest-env"
+  bucket_name: "elasticbeanstalk-us-east-2-131201257740"
+  bucket_path: "docker-test"
+  on: 
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY
